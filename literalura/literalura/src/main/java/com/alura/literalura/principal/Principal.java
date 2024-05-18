@@ -1,5 +1,7 @@
 package com.alura.literalura.principal;
 
+import com.alura.literalura.model.BookData;
+import com.alura.literalura.model.RawData;
 import com.alura.literalura.repository.BookRepository;
 import com.alura.literalura.service.ConsumoApi;
 import com.alura.literalura.service.ConverteDados;
@@ -12,8 +14,7 @@ public class Principal {
     private Scanner leitura = new Scanner(System.in);
     private ConsumoApi consumo = new ConsumoApi();
     private ConverteDados conversor = new ConverteDados();
-    private final String ENDERECO = "https://www.omdbapi.com/?t=";
-    private final String API_KEY = "&apikey=6585022c";
+    private final String ENDERECO = "http://gutendex.com/books/";
 
     private BookRepository repositorio;
 
@@ -25,18 +26,11 @@ public class Principal {
         var opcao = -1;
         while(opcao != 0) {
             var menu = """
-                    1 - Buscar séries
-                    2 - Buscar episódios
-                    3 - Listar séries buscadas
-                    4 - Buscar série por título
-                    5 - Buscar séries por ator
-                    6 - Top 5 Séries
-                    7 - Buscar séries por categoria
-                    8 - Filtrar séries
-                    9 - Buscar episódios por trecho
-                    10 - Top 5 episódios por série
-                    11 - Buscar episódios a partir de uma data 
-                                    
+                    1 - Buscar livro pelo título
+                    2 - Listar livros registrados
+                    3 - Listar autores registrados
+                    4 - Listar autores vivos em um determinado ano
+                    5 - Listar livros em um determinado idioma                                    
                     0 - Sair                                 
                     """;
 
@@ -46,37 +40,19 @@ public class Principal {
 
             switch (opcao) {
                 case 1:
-                    buscarSerieWeb();
+                    buscarLivroPorTitulo();
                     break;
                 case 2:
-                    buscarEpisodioPorSerie();
+                    listarLivros();
                     break;
                 case 3:
-                    listarSeriesBuscadas();
+                    listarAutores();
                     break;
                 case 4:
-                    buscarSeriePorTitulo();
+                    listarAutoresVivosEmAnoEspecifico();
                     break;
                 case 5:
-                    buscarSeriesPorAtor();
-                    break;
-                case 6:
-                    buscarTop5Series();
-                    break;
-                case 7:
-                    buscarSeriesPorCategoria();
-                    break;
-                case 8:
-                    filtrarSeriesPorTemporadaEAvaliacao();
-                    break;
-                case 9:
-                    buscarEpisodioPorTrecho();
-                    break;
-                case 10:
-                    topEpisodiosPorSerie();
-                    break;
-                case 11:
-                    buscarEpisodiosDepoisDeUmaData();
+                    listarLivrosEmDeterminadoIdioma();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -85,6 +61,32 @@ public class Principal {
                     System.out.println("Opção inválida");
             }
         }
+    }
+
+    private void listarLivrosEmDeterminadoIdioma() {
+    }
+
+    private void listarAutoresVivosEmAnoEspecifico() {
+
+    }
+
+    private void listarAutores() {
+
+    }
+
+    private void listarLivros() {
+
+    }
+
+    private void buscarLivroPorTitulo() {
+        System.out.println("Digite o livro a ser pesquisado");
+        String nomeLivro = leitura.nextLine();
+
+        var json = consumo.obterDados(ENDERECO + "?search=" + nomeLivro.replace(" ", "%20"));
+        System.out.println(ENDERECO + "?search=" + nomeLivro.replace(" ", "%20"));
+        RawData rawData = conversor.obterDados(json, RawData.class);
+
+        System.out.println(rawData.count());
     }
 
     private void buscarSerieWeb() {

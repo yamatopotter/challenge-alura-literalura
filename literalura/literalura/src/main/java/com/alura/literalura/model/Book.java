@@ -11,7 +11,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long title;
+    private String title;
     private List<String> subjects;
     private List<String> languages;
     @ManyToMany
@@ -25,7 +25,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(Long id, Long title, List<String> subjects, List<String> languages, List<Person> authors, Integer downloadCount) {
+    public Book(Long id, String title, List<String> subjects, List<String> languages, List<Person> authors, Integer downloadCount) {
         this.id = id;
         this.title = title;
         this.subjects = subjects;
