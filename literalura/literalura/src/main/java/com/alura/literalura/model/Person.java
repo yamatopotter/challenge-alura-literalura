@@ -10,6 +10,7 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long publicId;
     private String name;
     private Integer birthYear;
     private Integer deathYear;
@@ -20,9 +21,16 @@ public class Person {
     }
 
     public Person(Long id, String name, Integer birthYear, Integer deathYear) {
-        this.id = id;
+        this.publicId = id;
         this.name = name;
         this.birthYear = birthYear;
         this.deathYear = deathYear;
+    }
+
+    public Person (PersonData personData){
+        this.publicId = personData.id();
+        this.name = personData.name();
+        this.birthYear = personData.birthYear();
+        this.deathYear = personData.deathYear();
     }
 }

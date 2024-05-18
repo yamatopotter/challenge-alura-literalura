@@ -1,5 +1,6 @@
 package com.alura.literalura.principal;
 
+import com.alura.literalura.model.Book;
 import com.alura.literalura.model.BookData;
 import com.alura.literalura.model.RawData;
 import com.alura.literalura.repository.BookRepository;
@@ -86,7 +87,12 @@ public class Principal {
         System.out.println(ENDERECO + "?search=" + nomeLivro.replace(" ", "%20"));
         RawData rawData = conversor.obterDados(json, RawData.class);
 
-        System.out.println(rawData.count());
+        List<BookData> rawBookData = rawData.results();
+
+        rawBookData.stream().forEach( book ->
+                repositorio.save(new Book(book))
+        );
+
     }
 
     private void buscarSerieWeb() {

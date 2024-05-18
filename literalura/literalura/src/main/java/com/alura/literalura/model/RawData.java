@@ -5,6 +5,6 @@ import java.util.List;
 public record RawData(Integer count,
                       String next,
                       String previous,
-                      List results
+                      List<BookData> results
                         ) {
 }
