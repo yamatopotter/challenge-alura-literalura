@@ -33,4 +33,15 @@ public class Person {
         this.birthYear = personData.birthYear();
         this.deathYear = personData.deathYear();
     }
+
+    @Override
+    public String toString() {
+        String autor = """
+                Autor:
+                    nome: %s
+                    Ano de nascimento: %d
+                    Ano da morte: %d
+                """;
+        return String.format(autor, this.name, this.birthYear, this.deathYear);
+    }
 }

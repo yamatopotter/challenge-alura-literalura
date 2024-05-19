@@ -1,6 +1,8 @@
 package com.alura.literalura.principal;
 
 import com.alura.literalura.repository.BookRepository;
+import com.alura.literalura.service.BookService;
+import org.springframework.context.annotation.Bean;
 
 import java.util.*;
 
@@ -8,11 +10,10 @@ public class Principal {
 
     private Scanner leitura = new Scanner(System.in);
 
+    private BookService service;
 
-    private BookRepository repositorio;
-
-    public Principal(BookRepository repositorio) {
-        this.repositorio = repositorio;
+    public Principal(BookService service) {
+        this.service = service;
     }
 
     public void exibeMenu() {
@@ -72,12 +73,9 @@ public class Principal {
     }
 
     private void buscarLivroPorTitulo() {
-
-
-
-
-
-
+        System.out.println("Digite o nome do livro que busca");
+        String livro = leitura.nextLine();
+        service.addBook(livro);
     }
 
     private void buscarSerieWeb() {

@@ -17,25 +17,36 @@ public class BookService {
     private ConverteDados conversor = new ConverteDados();
     private final String ENDERECO = "http://gutendex.com/books/";
 
-    public Boolean addBook(String nomeLivro){
+    public void addBook(String nomeLivro) {
         var json = consumo.obterDados(ENDERECO + "?search=" + nomeLivro.replace(" ", "%20"));
-        System.out.println(ENDERECO + "?search=" + nomeLivro.replace(" ", "%20"));
         ApiData apiData = conversor.obterDados(json, ApiData.class);
 
-        if(apiData.count() > 0){
-            List<BookData> rawBookData = apiData.results();
+        System.out.println(apiData);
 
-            rawBookData.stream().forEach( book -> {
-                    bookRepository.save(new Book(book))
-//                    todo: criar o método para exibir o livro
-                    })
-            );
+        if (apiData.count() > 0) {
+            saveBook(apiData.results());
 
-//            ToDo: Criar procedimento para verificar se não tem próximo link
+            while(!apiData.next().isBlank()){
+                json = consumo.obterDados(ENDERECO + "?search=" + nomeLivro.replace(" ", "%20"));
+                apiData = conversor.obterDados(json, ApiData.class);
+                saveBook(apiData.results());
+            }
         }
+    }
 
-
-
+    public void saveBook(List<BookData> books){
+        books.stream().forEach(book -> {
+                    Book newBook = new Book(book);
+                    try {
+//                        todo: Adicionar os autores primeiros
+//                        newBook.
+                        bookRepository.save(newBook);
+                    } catch (Error e) {
+                        System.out.println(e.getMessage());
+                    }
+                    System.out.println(newBook);
+                }
+        );
     }
 
 }

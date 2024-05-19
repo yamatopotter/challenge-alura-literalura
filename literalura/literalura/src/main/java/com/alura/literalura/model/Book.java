@@ -12,6 +12,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique=true)
     private Long publicId;
     private String title;
     private List<String> subjects;
@@ -45,5 +46,74 @@ public class Book {
         this.languages = bookData.languages();
         this.authors = authors;
         this.downloadCount = bookData.downloadCount();
+    }
+
+    @Override
+    public String toString() {
+        String livro = """
+                Livro:
+                    nome: %s
+                    idiomas: %s
+                    autores: %s
+                    categorias: %s
+                    downloads: %d
+                """;
+       return String.format(livro, this.title, this.languages, this.authors, this.subjects, this.downloadCount);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getPublicId() {
+        return publicId;
+    }
+
+    public void setPublicId(Long publicId) {
+        this.publicId = publicId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<String> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<String> subjects) {
+        this.subjects = subjects;
+    }
+
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
+    }
+
+    public List<Person> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<Person> authors) {
+        this.authors = authors;
+    }
+
+    public Integer getDownloadCount() {
+        return downloadCount;
+    }
+
+    public void setDownloadCount(Integer downloadCount) {
+        this.downloadCount = downloadCount;
     }
 }
