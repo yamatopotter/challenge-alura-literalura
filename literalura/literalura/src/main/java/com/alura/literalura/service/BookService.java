@@ -24,10 +24,14 @@ public class BookService {
 
         if(apiData.count() > 0){
             List<BookData> rawBookData = apiData.results();
-            rawBookData.stream().forEach( book ->
+
+            rawBookData.stream().forEach( book -> {
                     bookRepository.save(new Book(book))
+//                    todo: criar o método para exibir o livro
+                    })
             );
 
+//            ToDo: Criar procedimento para verificar se não tem próximo link
         }
 
 
