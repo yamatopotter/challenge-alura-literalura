@@ -1,21 +1,13 @@
 package com.alura.literalura.principal;
 
-import com.alura.literalura.model.Book;
-import com.alura.literalura.model.BookData;
-import com.alura.literalura.model.RawData;
 import com.alura.literalura.repository.BookRepository;
-import com.alura.literalura.service.ConsumoApi;
-import com.alura.literalura.service.ConverteDados;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Principal {
 
     private Scanner leitura = new Scanner(System.in);
-    private ConsumoApi consumo = new ConsumoApi();
-    private ConverteDados conversor = new ConverteDados();
-    private final String ENDERECO = "http://gutendex.com/books/";
+
 
     private BookRepository repositorio;
 
@@ -80,18 +72,11 @@ public class Principal {
     }
 
     private void buscarLivroPorTitulo() {
-        System.out.println("Digite o livro a ser pesquisado");
-        String nomeLivro = leitura.nextLine();
 
-        var json = consumo.obterDados(ENDERECO + "?search=" + nomeLivro.replace(" ", "%20"));
-        System.out.println(ENDERECO + "?search=" + nomeLivro.replace(" ", "%20"));
-        RawData rawData = conversor.obterDados(json, RawData.class);
 
-        List<BookData> rawBookData = rawData.results();
 
-        rawBookData.stream().forEach( book ->
-                repositorio.save(new Book(book))
-        );
+
+
 
     }
 
