@@ -1,11 +1,14 @@
 package com.alura.literalura.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Column;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record PersonData(
         Long id,
+        @Column(unique = true)
         String name,
-        Integer birthYear,
-        Integer deathYear) {
+        @JsonAlias("birth_year") Integer birthYear,
+        @JsonAlias("death_year") Integer deathYear) {
 }

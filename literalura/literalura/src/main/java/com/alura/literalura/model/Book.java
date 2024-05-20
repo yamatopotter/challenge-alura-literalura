@@ -3,7 +3,6 @@ package com.alura.literalura.model;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -16,8 +15,13 @@ public class Book {
     private Long publicId;
     private String title;
     private List<String> subjects;
-    private List<String> languages;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "livros_idiomas",
+            joinColumns = @JoinColumn(name = "livros_id"),
+            inverseJoinColumns = @JoinColumn(name = "idiomas_id"))
+    private List<Language> languages;
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "livros_pessoas",
             joinColumns = @JoinColumn(name = "livros_id"),
@@ -28,7 +32,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(Long id, String title, List<String> subjects, List<String> languages, List<Person> authors, Integer downloadCount) {
+    public Book(Long id, String title, List<String> subjects, List<Language> languages, List<Person> authors, Integer downloadCount) {
         this.publicId = id;
         this.title = title;
         this.subjects = subjects;
@@ -39,11 +43,12 @@ public class Book {
 
     public Book(BookData bookData){
         List<Person> authors = bookData.authors().stream().map(Person::new).collect(Collectors.toList());
+        List<Language> languages = bookData.languages().stream().map(Language::new).collect(Collectors.toList());
 
         this.publicId = bookData.id();
         this.title = bookData.title();
         this.subjects = bookData.subjects();
-        this.languages = bookData.languages();
+        this.languages = languages;
         this.authors = authors;
         this.downloadCount = bookData.downloadCount();
     }
@@ -93,11 +98,11 @@ public class Book {
         this.subjects = subjects;
     }
 
-    public List<String> getLanguages() {
+    public List<Language> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<String> languages) {
+    public void setLanguages(List<Language> languages) {
         this.languages = languages;
     }
 
